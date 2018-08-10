@@ -3,6 +3,8 @@ import java.util.List;
 public class Hand {
 
     Card cards[] = new Card[5];
+    int suitCount[] = new int[4];
+    int faceValueCount[] = new int[14];
 
     public Hand(Card [] cards) {
         this.cards = cards;
@@ -12,7 +14,7 @@ public class Hand {
         return 0;
     }
 
-    private boolean hasPair() {
+    private boolean hasNPair(int n) {
         return false;
     }
 
@@ -29,7 +31,7 @@ public class Hand {
     }
 
     private boolean hasFullHouse() {
-        return hasPair() && hasNOfAKind(3);
+        return hasNPair(1) && hasNOfAKind(3);
     }
 
     private boolean hasRoyalFlush() {
