@@ -81,9 +81,15 @@ public class Hand {
     private boolean hasStraight() {
         Arrays.sort(cards);
         int start=cards[0].getRank();
-        for(Card c: cards){
-            if(c.getRank()>start+1)
+        int i=0;
+        if(start==1 && cards[1].getRank()==10) {
+            i = 1;
+            start=10;
+        }
+        for(;i<cards.length; i++){
+            if(cards[i].getRank()>start+1)
                 return false;
+            start=cards[i].getRank();
         }
         return true;
     }
