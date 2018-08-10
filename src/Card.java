@@ -2,14 +2,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Card implements Comparable<Card> {
-    String suite = new String();
+    String suit = new String();
     String value = new String();
     int rank;
-    final String [ ] suites = {"Diamond", "Heart", "Spade", "Clubs" };
+    final String [ ] suits = {"Diamond", "Heart", "Spade", "Clubs" };
     final int [ ] ranks = {1,2,3,4,5,6,7,8,9,10,11,12,13};
-    final ArrayList<String> values =(ArrayList<String>) Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K");
-    Card(String suite,String value){
-        this.suite=suite;
+    final ArrayList<String> values =new ArrayList<>(Arrays.asList("A","2","3","4","5","6","7","8","9","10","J","Q","K"));
+    Card(String suit,String value){
+        this.suit=suit;
         this.value=value;
         this.rank=calcRank(value);
     }
@@ -23,11 +23,11 @@ public class Card implements Comparable<Card> {
     public void setRank(int rank) {
         this.rank = rank;
     }
-    public String getSuite() {
-        return suite;
+    public String getSuit() {
+        return suit;
     }
-    public void setSuite(String suite) {
-        this.suite = suite;
+    public void setSuit(String suit) {
+        this.suit = suit;
     }
     public String getValue() {
         return value;
@@ -37,7 +37,8 @@ public class Card implements Comparable<Card> {
     }
     @Override
     public int compareTo(Card o) {
-        return this.rank-o.rank;
+        // TODO Auto-generated method stub
+        return -1*(this.rank-o.rank);
 
     }
 }

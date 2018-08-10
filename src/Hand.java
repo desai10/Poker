@@ -1,22 +1,15 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Hand {
 
     final static String  [] handRanking= {"Royal Flush", "Straight Flush", "4 of a Kind", "Full House", "Flush", "Straight", "3 of a kind", "2 Pair", "1 Pair", "High Card"};
 
     Card cards[] = new Card[5];
-    List<Character> suits;
+    List<String> suits = new ArrayList<>(Arrays.asList("Diamond", "Heart", "Spade", "Clubs"));
 
     public Hand(Card [] cards) {
         this.cards = cards;
-        suits = new ArrayList<>();
-        suits.add('S');
-        suits.add('H');
-        suits.add('C');
-        suits.add('D');
     }
 
     public int evaluate() {
@@ -55,7 +48,7 @@ public class Hand {
         int pairCount = 0;
         int count[] = new int[15];
         for(int i=0;i<cards.length;i++) {
-            count[cards[i].getValue()]++;
+            count[cards[i].getRank()]++;
         }
         for(int i=0;i<15;i++)
             if(count[i]==2)
@@ -66,7 +59,7 @@ public class Hand {
     private boolean hasNOfAKind(int n) {
         int count[] = new int[15];
         for(int i=0;i<cards.length;i++) {
-            count[cards[i].getValue()]++;
+            count[cards[i].getRank()]++;
         }
         for(int i=0;i<15;i++)
             if(count[i]==n)
@@ -74,7 +67,7 @@ public class Hand {
         return false;
     }
 
-    public boolean hasFlush() {
+    private boolean hasFlush() {
         int suitCount[] = new int [4];
         for(int i=0;i<4;i++) {
             suitCount[i] = 0;
@@ -93,10 +86,10 @@ public class Hand {
         return hasNPair(1) && hasNOfAKind(3);
     }
 
-    public boolean hasRoyalFlush() {
+    private boolean hasRoyalFlush() {
         boolean hasAce = false;
         for(int i=0;i<5;i++) {
-            if(cards[i].getFaceValue() == 'A') {
+            if(cards[i].getValue().equals("A")) {
                 hasAce = true;
                 break;
             }
