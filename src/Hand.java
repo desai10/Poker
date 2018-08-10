@@ -5,10 +5,10 @@ public class Hand {
 
     final static String  [] handRanking= {"Royal Flush", "Straight Flush", "4 of a Kind", "Full House", "Flush", "Straight", "3 of a kind", "2 Pair", "1 Pair", "High Card"};
 
-    Card cards[] = new Card[5];
+    List<Card> cards;
     List<String> suits = new ArrayList<>(Arrays.asList("Diamond", "Heart", "Spade", "Clubs"));
 
-    public Hand(Card [] cards) {
+    public Hand(List<Card> cards) {
         this.cards = cards;
     }
 
@@ -47,8 +47,8 @@ public class Hand {
     private boolean hasNPair(int n) {
         int pairCount = 0;
         int count[] = new int[15];
-        for(int i=0;i<cards.length;i++) {
-            count[cards[i].getRank()]++;
+        for(int i=0;i<cards.size();i++) {
+            count[cards.get(i).getRank()]++;
         }
         for(int i=0;i<15;i++)
             if(count[i]==2)
@@ -58,8 +58,8 @@ public class Hand {
 
     private boolean hasNOfAKind(int n) {
         int count[] = new int[15];
-        for(int i=0;i<cards.length;i++) {
-            count[cards[i].getRank()]++;
+        for(int i=0;i<cards.size();i++) {
+            count[cards.get(i).getRank()]++;
         }
         for(int i=0;i<15;i++)
             if(count[i]==n)
@@ -73,23 +73,23 @@ public class Hand {
             suitCount[i] = 0;
         }
         for(int i=0;i<5;i++) {
-            suitCount[suits.indexOf(cards[i].getSuit())]++;
+            suitCount[suits.indexOf(cards.get(i).getSuit())]++;
         }
         return suitCount[0] == 5  || suitCount[1] == 5 || suitCount[2] == 5 || suitCount[3] == 5;
     }
 
     private boolean hasStraight() {
-        Arrays.sort(cards);
-        int start=cards[0].getRank();
+        Collections.sort(cards);
+        int start=cards.get(0).getRank();
         int i=0;
-        if(start==1 && cards[1].getRank()==10) {
+        if(start==1 && cards.get(i).getRank()==10) {
             i = 1;
             start=10;
         }
-        for(;i<cards.length; i++){
-            if(cards[i].getRank()>start+1)
+        for(;i<cards.size(); i++){
+            if(cards.get(i).getRank()>start+1)
                 return false;
-            start=cards[i].getRank();
+            start=cards.get(i).getRank();
         }
         return true;
     }
@@ -101,7 +101,7 @@ public class Hand {
     private boolean hasRoyalFlush() {
         boolean hasAce = false;
         for(int i=0;i<5;i++) {
-            if(cards[i].getValue().equals("A")) {
+            if(cards.get(i).getValue().equals("A")) {
                 hasAce = true;
                 break;
             }
