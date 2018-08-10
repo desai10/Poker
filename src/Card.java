@@ -38,7 +38,7 @@ public class Card implements Comparable<Card> {
     @Override
     public int compareTo(Card o) {
         // TODO Auto-generated method stub
-        return -1*(this.rank-o.rank);
+        return (this.rank-o.rank);
 
     }
 }
