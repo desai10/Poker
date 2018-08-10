@@ -11,6 +11,7 @@ public class Card {
     public char getFaceValue() {
         return faceValue;
     }
+    public int getValue(){return 1;}
 
     public char getSuit() {
         return suit;

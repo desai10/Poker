@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Hand {
 
@@ -50,10 +52,25 @@ public class Hand {
     }
 
     private boolean hasNPair(int n) {
-        return false;
+        int pairCount = 0;
+        int count[] = new int[15];
+        for(int i=0;i<cards.length;i++) {
+            count[cards[i].getValue()]++;
+        }
+        for(int i=0;i<15;i++)
+            if(count[i]==2)
+                pairCount++;
+        return pairCount==n;
     }
 
     private boolean hasNOfAKind(int n) {
+        int count[] = new int[15];
+        for(int i=0;i<cards.length;i++) {
+            count[cards[i].getValue()]++;
+        }
+        for(int i=0;i<15;i++)
+            if(count[i]==n)
+                return true;
         return false;
     }
 
