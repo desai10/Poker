@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Hand {
 
-    final static String  [] handRanking= {"Royal Flush", "Straight Flush", "4 of a Kind", "Full House", "Flush", "Straight", "3 of a kind", "2 Pair", "1 Pair", "High Card"};
+    enum handRanking {RoyalFlush, FiveOfAKind, RoyalFlushWithJoker, StraightFlush, FourOfAKind, FullHouse, Flush, Straight, ThreeOfAKind, TwoPair, OnePair, HighCard};
 
     List<Card> cards;
     List<String> suits = new ArrayList<>(Arrays.asList("Diamond", "Heart", "Spade", "Clubs"));
@@ -12,36 +12,28 @@ public class Hand {
         this.cards = cards;
     }
 
-    public int evaluate() {
-        int i = 0;
+
+    public handRanking evaluate() {
         if(hasRoyalFlush())
-            return i;
-        i++;
+            return handRanking.RoyalFlush;
         if(hasStraightFlush())
-            return i;
-        i++;
+            return handRanking.StraightFlush;
         if(hasNOfAKind(4))
-            return i;
-        i++;
+            return handRanking.FourOfAKind;
         if(hasFullHouse())
-            return i;
-        i++;
+            return handRanking.FullHouse;
         if(hasFlush())
-            return i;
-        i++;
+            return handRanking.Flush;
         if(hasStraight())
-            return i;
-        i++;
+            return handRanking.Straight;
         if(hasNOfAKind(3))
-            return i;
-        i++;
+            return handRanking.ThreeOfAKind;
         if(hasNPair(2))
-            return i;
-        i++;
-        if(hasNOfAKind(1))
-            return i;
-        i++;
-        return i;
+            return handRanking.TwoPair;
+        if(hasNPair(1))
+            return handRanking.OnePair;
+        else
+            return handRanking.HighCard;
     }
 
     private boolean hasNPair(int n) {
