@@ -1,12 +1,15 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
     public static void main(String [] args) {
-        Card cards[] = new Card[5];
-        cards[0] = new Card("Diamond", "A" );
-        cards[1] = new Card("Spade", "2");
-        cards[2] = new Card("Heart", "3");
-        cards[3] = new Card("Diamond", "4");
-        cards[4] = new Card("Diamond", "5");
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Card("Diamond", "A" ));
+        cards.add(new Card("Spade", "2"));
+        cards.add(new Card("Heart", "3"));
+        cards.add(new Card("Diamond", "4"));
+        cards.add(new Card("Diamond", "5"));
         Hand hand = new Hand(cards);
         System.out.println(hand.evaluate());
     }
