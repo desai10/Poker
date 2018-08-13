@@ -8,13 +8,18 @@ public class Hand {
     List<Card> cards;
     List<String> suits = new ArrayList<>(Arrays.asList("Diamond", "Heart", "Spade", "Clubs"));
 
+    int noOfJokers=0;
     public Hand(List<Card> cards) {
         this.cards = cards;
+        for(Card c : cards){
+            if(c.isJoker)
+                noOfJokers++;
+        }
     }
 
 
     public handRanking evaluate() {
-        if(hasRoyalFlush())
+        if(hasRoyalFlush(false))
             return handRanking.RoyalFlush;
         if(hasStraightFlush())
             return handRanking.StraightFlush;
@@ -35,6 +40,7 @@ public class Hand {
         else
             return handRanking.HighCard;
     }
+
 
     private boolean hasNPair(int n) {
         int pairCount = 0;
@@ -90,7 +96,7 @@ public class Hand {
         return hasNPair(1) && hasNOfAKind(3);
     }
 
-    private boolean hasRoyalFlush() {
+    private boolean hasRoyalFlush(boolean withJoker) {
         boolean hasAce = false;
         for(int i=0;i<5;i++) {
             if(cards.get(i).getValue().equals("A")) {
@@ -98,7 +104,7 @@ public class Hand {
                 break;
             }
         }
-        return hasAce && hasStraightFlush();
+        return hasAce && hasStraightFlush() && (withJoker == hasJoker);
     }
 
     private boolean hasStraightFlush() {
