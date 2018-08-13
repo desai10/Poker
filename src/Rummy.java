@@ -1,4 +1,5 @@
 import CardUtils.Card;
+import CardUtils.Deck;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,20 +24,18 @@ public class Rummy {
     }
 
     public boolean isSequenceOfTwo(Card c1, Card c2, int diff){
-        return Card.isDiffEqual(c2, c1, diff);
+        return isDiffEqual(c2, c1, diff);
     }
 
     public boolean isSequenceOfFour(Card c1, Card c2, Card c3, Card c4){
-        return Card.isDiffEqual(c2, c1, 1) && Card.isDiffEqual(c3, c2, 1) && Card.isDiffEqual(c4, c3, 1);
+        return isDiffEqual(c2, c1, 1) && isDiffEqual(c3, c2, 1) && isDiffEqual(c4, c3, 1);
     }
 
     public boolean isSequenceOfThree(Card c1, Card c2, Card c3){
-        return Card.isDiffEqual(c2, c1, 1) && Card.isDiffEqual(c3, c2, 1);
+        return isDiffEqual(c2, c1, 1) && isDiffEqual(c3, c2, 1);
     }
 
-    public boolean isSetOfThree (Card c1, Card c2, Card c3){
-        return Card.isSameRankDiffSuite(c1, c2) && Card.isSameRankDiffSuite(c2, c3) && Card.isSameRankDiffSuite(c1, c3);
-    }
+
 
     public int isPureSequence(){
         return isSequence(true);
@@ -51,7 +50,7 @@ public class Rummy {
 
         List<Card> tempCards = new ArrayList<>(hand);
 
-        Collections.sort(tempCards, (a, b)->Card.compareSuits(a, b));
+        Collections.sort(tempCards, Card.getCardSequenceComparator());
 
         if (isPure){
             isSequenceLoop(tempCards, true);
@@ -102,7 +101,7 @@ public class Rummy {
                 tempPotenSeqlist.add(tempCards.get(i-1));
                 tempPotenSeqlist.add(tempCards.get(i));
 
-                possibleSeqOfThree.add(tempPotenSeqlist);
+                tempSeq.add(tempPotenSeqlist);
 
                 tempCards.remove(i);
                 tempCards.remove(i-1);
@@ -161,29 +160,33 @@ public class Rummy {
         return count;
     }
 
-    public int isSet (){
-        int count = 0;
-        List<Card> tempCards = new ArrayList<>(hand);
-
-        Collections.sort(tempCards, (a, b)->Card.compareValue(a, b));
-
-        for (int i=2; i<tempCards.size(); i++){
-            if ( isSetOfThree(tempCards.get(i-2), tempCards.get(i-1), tempCards.get(i))){
-                count++;
-            }
-        }
-        return count;
+//    public int isSet (){
+//        int count = 0;
+//        List<Card> tempCards = new ArrayList<>(hand);
+//
+//        Collections.sort(tempCards, Card.getCardRankComparator());
+//
+//        for (int i=2; i<tempCards.size(); i++){
+//            if ( isSetOfThree(tempCards.get(i-2), tempCards.get(i-1), tempCards.get(i))){
+//                count++;
+//            }
+//        }
+//        return count;
+//    }
+    private boolean isDiffEqual (Card c1, Card c2, int diff){
+        return c1.getSuit().equals(c2.getSuit()) && c1.getPip().ordinal() ==c2.getPip().ordinal() + diff;
     }
+
 
     public static void main (String args[]){
         Rummy r = new Rummy();
-        CardsDeck c = new CardsDeck();
-        c.shuffle(2, 13);
-        r.hand = c.cards;
-        Collections.sort(r.hand, (a, b)->Card.compareSuits(a, b));
+        Deck deck = new Deck(2,4);
+        deck.shuffle();
+        r.hand = deck.deal(1,13).get(0);
+        Collections.sort(r.hand, Card.getCardSequenceComparator());
         System.out.println(r.hand);
         r.isPureSequence();
-        r.isSet();
+//        r.isSet();
         r.isPotentialSequence();
         System.out.println("All Pure 4 - " + r.pureSeqOfFour);
         System.out.println("All Pure 3 - " + r.pureSeqOfThree);
