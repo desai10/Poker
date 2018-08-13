@@ -8,6 +8,8 @@ public class Hand {
     List<Card> cards;
     List<String> suits = new ArrayList<>(Arrays.asList("Diamond", "Heart", "Spade", "Clubs"));
 
+    boolean hasJoker;
+
     public Hand(List<Card> cards) {
         this.cards = cards;
     }
@@ -38,7 +40,7 @@ public class Hand {
         if(hasNPair(2))
             return i;
         i++;
-        if(hasNOfAKind(1))
+        if(hasNPair(1))
             return i;
         i++;
         return i;
@@ -98,7 +100,7 @@ public class Hand {
         return hasNPair(1) && hasNOfAKind(3);
     }
 
-    private boolean hasRoyalFlush() {
+    private boolean hasRoyalFlush(boolean withJoker) {
         boolean hasAce = false;
         for(int i=0;i<5;i++) {
             if(cards.get(i).getValue().equals("A")) {
@@ -106,11 +108,18 @@ public class Hand {
                 break;
             }
         }
-        return hasAce && hasStraightFlush();
+
+            return hasAce && hasStraightFlush() && (hasJoker==withJoker);
+
     }
 
     private boolean hasStraightFlush() {
         return hasStraight() && hasFlush();
     }
 
+    public void printCards(){
+        for(Card c:cards){
+            System.out.println(c.value + " " + c.suit);
+        }
+    }
 }
