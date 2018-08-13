@@ -9,12 +9,12 @@ public class Deck {
     List<Card> allCards=new ArrayList<Card>();
     List<Card> dealtCards = new ArrayList<>();
 
-    Deck(int numberOfPacks){
+    public Deck(int numberOfPacks){
         while(numberOfPacks--!=0)
             allCards.addAll(getPack());
     }
 
-    Deck(int numberOfPacks, int numberOfjokers){
+    public Deck(int numberOfPacks, int numberOfjokers){
         int numberOfJokersToRemove=2*numberOfPacks-numberOfjokers;
         while(numberOfPacks--!=0)
             allCards.addAll(getPack());

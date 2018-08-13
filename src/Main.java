@@ -1,16 +1,14 @@
+import CardUtils.Deck;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
     public static void main(String [] args) {
-        List<Card> cards = new ArrayList<>();
-        cards.add(new Card("Diamond", "A" ));
-        cards.add(new Card("Spade", "2"));
-        cards.add(new Card("Heart", "3"));
-        cards.add(new Card("Diamond", "4"));
-        cards.add(new Card("Diamond", "5"));
-        Hand hand = new Hand(cards);
+            Deck d = new Deck(1);
+
+        Hand hand = new Hand( d.deal(1,5).get(0));
         System.out.println(hand.evaluate());
     }
 

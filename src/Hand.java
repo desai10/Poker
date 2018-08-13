@@ -1,3 +1,5 @@
+import CardUtils.Card;
+
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -7,7 +9,6 @@ public class Hand implements Comparable<Hand> {
 
     handRanking rank;
     List<Card> cards;
-    List<String> suits = new ArrayList<>(Arrays.asList("Diamond", "Heart", "Spade", "Clubs"));
 
     public Hand(List<Card> cards) {
         this.cards = cards;
@@ -50,7 +51,7 @@ public class Hand implements Comparable<Hand> {
         int pairCount = 0;
         int count[] = new int[15];
         for(int i=0;i<cards.size();i++) {
-            count[cards.get(i).getRank()]++;
+            count[cards.get(i).getPip().ordinal()]++;
         }
         for(int i=0;i<15;i++)
             if(count[i]==2)
@@ -73,7 +74,7 @@ public class Hand implements Comparable<Hand> {
     private boolean hasNOfAKind(int n) {
         int count[] = new int[15];
         for(int i=0;i<cards.size();i++) {
-            count[cards.get(i).getRank()]++;
+            count[cards.get(i).getPip().ordinal()]++;
         }
         for(int i=0;i<15;i++)
             if(count[i]==n)
@@ -82,28 +83,28 @@ public class Hand implements Comparable<Hand> {
     }
 
     private boolean hasFlush() {
-        int suitCount[] = new int [4];
-        for(int i=0;i<4;i++) {
+        int suitCount[] = new int [5];
+        for(int i=0;i<5;i++) {
             suitCount[i] = 0;
         }
         for(int i=0;i<5;i++) {
-            suitCount[suits.indexOf(cards.get(i).getSuit())]++;
+            suitCount[cards.get(i).getSuit().ordinal()]++;
         }
-        return suitCount[0] == 5  || suitCount[1] == 5 || suitCount[2] == 5 || suitCount[3] == 5;
+        return suitCount[4] == 5  || suitCount[1] == 5 || suitCount[2] == 5 || suitCount[3] == 5;
     }
 
     private boolean hasStraight() {
-        Collections.sort(cards);
-        int start=cards.get(0).getRank();
+        Collections.sort(cards,Card.getCardRankComparator());
+        int start=cards.get(0).getPip().ordinal();
         int i=0;
-        if(start==1 && cards.get(i).getRank()==10) {
+        if(start==1 && cards.get(i).getPip().ordinal()==10) {
             i = 1;
             start=10;
         }
         for(;i<cards.size(); i++){
-            if(cards.get(i).getRank()>start+1)
+            if(cards.get(i).getPip().ordinal()>start+1)
                 return false;
-            start=cards.get(i).getRank();
+            start=cards.get(i).getPip().ordinal();
         }
         return true;
     }
@@ -115,7 +116,7 @@ public class Hand implements Comparable<Hand> {
     private boolean hasRoyalFlush() {
         boolean hasAce = false;
         for(int i=0;i<5;i++) {
-            if(cards.get(i).getValue().equals("A")) {
+            if(cards.get(i).getPip().name().equals("A")) {
                 hasAce = true;
                 break;
             }
