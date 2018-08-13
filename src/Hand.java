@@ -1,10 +1,11 @@
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class Hand {
+public class Hand implements Comparable<Hand> {
 
     enum handRanking {RoyalFlush, FiveOfAKind, RoyalFlushWithJoker, StraightFlush, FourOfAKind, FullHouse, Flush, Straight, ThreeOfAKind, TwoPair, OnePair, HighCard};
 
+    handRanking rank;
     List<Card> cards;
     List<String> suits = new ArrayList<>(Arrays.asList("Diamond", "Heart", "Spade", "Clubs"));
 
@@ -15,25 +16,26 @@ public class Hand {
 
     public handRanking evaluate() {
         if(hasRoyalFlush())
-            return handRanking.RoyalFlush;
+            rank= handRanking.RoyalFlush;
         if(hasStraightFlush())
-            return handRanking.StraightFlush;
+            rank= handRanking.StraightFlush;
         if(hasNOfAKind(4))
-            return handRanking.FourOfAKind;
+            rank= handRanking.FourOfAKind;
         if(hasFullHouse())
-            return handRanking.FullHouse;
+            rank= handRanking.FullHouse;
         if(hasFlush())
-            return handRanking.Flush;
+            rank= handRanking.Flush;
         if(hasStraight())
-            return handRanking.Straight;
+            rank= handRanking.Straight;
         if(hasNOfAKind(3))
-            return handRanking.ThreeOfAKind;
+            rank=  handRanking.ThreeOfAKind;
         if(hasNPair(2))
-            return handRanking.TwoPair;
+            rank= handRanking.TwoPair;
         if(hasNPair(1))
-            return handRanking.OnePair;
+            rank= handRanking.OnePair;
         else
-            return handRanking.HighCard;
+            rank= handRanking.HighCard;
+        return rank;
     }
 
     private boolean hasNPair(int n) {
