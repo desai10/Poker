@@ -38,6 +38,14 @@ public class Hand implements Comparable<Hand> {
         return rank;
     }
 
+    private boolean hasOnePair() {
+        return true;
+    }
+
+    private boolean hasTwoPair() {
+        return true;
+    }
+
     private boolean hasNPair(int n) {
         int pairCount = 0;
         int count[] = new int[15];
@@ -48,6 +56,18 @@ public class Hand implements Comparable<Hand> {
             if(count[i]==2)
                 pairCount++;
         return pairCount==n;
+    }
+
+    private boolean hasThreeOfAKind() {
+        return true;
+    }
+
+    private boolean hasFourOfAKind() {
+        return true;
+    }
+
+    private boolean hasFiveOfAKind() {
+        return true;
     }
 
     private boolean hasNOfAKind(int n) {
@@ -105,6 +125,11 @@ public class Hand implements Comparable<Hand> {
 
     private boolean hasStraightFlush() {
         return hasStraight() && hasFlush();
+    }
+
+    @Override
+    public int compareTo(Hand o) {
+        return 0;
     }
 
 }
