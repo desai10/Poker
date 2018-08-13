@@ -3,47 +3,37 @@ import java.util.*;
 
 public class Hand {
 
-    final static String  [] handRanking= {"Royal Flush", "Straight Flush", "4 of a Kind", "Full House", "Flush", "Straight", "3 of a kind", "2 Pair", "1 Pair", "High Card"};
+    enum handRanking {RoyalFlush, FiveOfAKind, RoyalFlushWithJoker, StraightFlush, FourOfAKind, FullHouse, Flush, Straight, ThreeOfAKind, TwoPair, OnePair, HighCard};
 
     List<Card> cards;
     List<String> suits = new ArrayList<>(Arrays.asList("Diamond", "Heart", "Spade", "Clubs"));
-
-    boolean hasJoker;
 
     public Hand(List<Card> cards) {
         this.cards = cards;
     }
 
-    public int evaluate() {
-        int i = 0;
+
+    public handRanking evaluate() {
         if(hasRoyalFlush())
-            return i;
-        i++;
+            return handRanking.RoyalFlush;
         if(hasStraightFlush())
-            return i;
-        i++;
+            return handRanking.StraightFlush;
         if(hasNOfAKind(4))
-            return i;
-        i++;
+            return handRanking.FourOfAKind;
         if(hasFullHouse())
-            return i;
-        i++;
+            return handRanking.FullHouse;
         if(hasFlush())
-            return i;
-        i++;
+            return handRanking.Flush;
         if(hasStraight())
-            return i;
-        i++;
+            return handRanking.Straight;
         if(hasNOfAKind(3))
-            return i;
-        i++;
+            return handRanking.ThreeOfAKind;
         if(hasNPair(2))
-            return i;
-        i++;
+            return handRanking.TwoPair;
         if(hasNPair(1))
-            return i;
-        i++;
-        return i;
+            return handRanking.OnePair;
+        else
+            return handRanking.HighCard;
     }
 
     private boolean hasNPair(int n) {
@@ -100,7 +90,7 @@ public class Hand {
         return hasNPair(1) && hasNOfAKind(3);
     }
 
-    private boolean hasRoyalFlush(boolean withJoker) {
+    private boolean hasRoyalFlush() {
         boolean hasAce = false;
         for(int i=0;i<5;i++) {
             if(cards.get(i).getValue().equals("A")) {
@@ -108,18 +98,11 @@ public class Hand {
                 break;
             }
         }
-
-            return hasAce && hasStraightFlush() && (hasJoker==withJoker);
-
+        return hasAce && hasStraightFlush();
     }
 
     private boolean hasStraightFlush() {
         return hasStraight() && hasFlush();
     }
 
-    public void printCards(){
-        for(Card c:cards){
-            System.out.println(c.value + " " + c.suit);
-        }
-    }
 }
