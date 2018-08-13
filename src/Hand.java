@@ -1,46 +1,42 @@
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class Hand {
+public class Hand implements Comparable<Hand> {
 
     enum handRanking {RoyalFlush, FiveOfAKind, RoyalFlushWithJoker, StraightFlush, FourOfAKind, FullHouse, Flush, Straight, ThreeOfAKind, TwoPair, OnePair, HighCard};
 
+    handRanking rank;
     List<Card> cards;
     List<String> suits = new ArrayList<>(Arrays.asList("Diamond", "Heart", "Spade", "Clubs"));
 
-    int noOfJokers=0;
     public Hand(List<Card> cards) {
         this.cards = cards;
-        for(Card c : cards){
-            if(c.isJoker)
-                noOfJokers++;
-        }
     }
 
 
     public handRanking evaluate() {
-        if(hasRoyalFlush(false))
-            return handRanking.RoyalFlush;
+        if(hasRoyalFlush())
+            rank= handRanking.RoyalFlush;
         if(hasStraightFlush())
-            return handRanking.StraightFlush;
+            rank= handRanking.StraightFlush;
         if(hasNOfAKind(4))
-            return handRanking.FourOfAKind;
+            rank= handRanking.FourOfAKind;
         if(hasFullHouse())
-            return handRanking.FullHouse;
+            rank= handRanking.FullHouse;
         if(hasFlush())
-            return handRanking.Flush;
+            rank= handRanking.Flush;
         if(hasStraight())
-            return handRanking.Straight;
+            rank= handRanking.Straight;
         if(hasNOfAKind(3))
-            return handRanking.ThreeOfAKind;
+            rank=  handRanking.ThreeOfAKind;
         if(hasNPair(2))
-            return handRanking.TwoPair;
+            rank= handRanking.TwoPair;
         if(hasNPair(1))
-            return handRanking.OnePair;
+            rank= handRanking.OnePair;
         else
-            return handRanking.HighCard;
+            rank= handRanking.HighCard;
+        return rank;
     }
-
 
     private boolean hasNPair(int n) {
         int pairCount = 0;
@@ -96,7 +92,7 @@ public class Hand {
         return hasNPair(1) && hasNOfAKind(3);
     }
 
-    private boolean hasRoyalFlush(boolean withJoker) {
+    private boolean hasRoyalFlush() {
         boolean hasAce = false;
         for(int i=0;i<5;i++) {
             if(cards.get(i).getValue().equals("A")) {
@@ -104,7 +100,7 @@ public class Hand {
                 break;
             }
         }
-        return hasAce && hasStraightFlush() && (withJoker == hasJoker);
+        return hasAce && hasStraightFlush();
     }
 
     private boolean hasStraightFlush() {
